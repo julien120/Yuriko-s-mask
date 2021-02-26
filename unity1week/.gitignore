@@ -60,3 +60,6 @@ crashlytics-build.properties
 
 # 追加であれば
 
+# shoot
+Assets/Plugins/UniRx
+Assets/Plugins/UniRx.meta
