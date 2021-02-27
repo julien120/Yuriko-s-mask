@@ -1,0 +1,10 @@
+Base path: '/Users/hasuo/Documents/unity/2019.4.14f1/Unity.app/Contents', plugins path '/Users/hasuo/Documents/unity/2019.4.14f1/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=14 insize=5032 outsize=10966 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=5372 outsize=7542 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=11289 outsize=22342 ok=1
+
+Quitting shader compiler process
