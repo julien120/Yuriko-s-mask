@@ -11,7 +11,13 @@ public class Yuriko : MonoBehaviour
     private float moveSpeed;
 
     [SerializeField]
-    private Camera camera;
+    private int jumpPower;
+
+    [SerializeField]
+    private Camera camera; // このカメラ移動制限
+
+    public IntReactiveProperty score;
+    public IntReactiveProperty immunity; // 免疫力(体力)
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
@@ -33,7 +39,7 @@ public class Yuriko : MonoBehaviour
 
     void OnGameOver()
     {
-
+        moveDisposable.Dispose();
     }
 
     private void Move()
@@ -63,7 +69,7 @@ public class Yuriko : MonoBehaviour
         {
             isJumping = true;
             animator.SetBool("IsJumping", true);
-            rigidbody2D.AddForce(new Vector2(0, 300));
+            rigidbody2D.AddForce(new Vector2(0, jumpPower));
         }
     }
 
@@ -73,10 +79,10 @@ public class Yuriko : MonoBehaviour
     private Vector3 Clamp(Vector3 position)
     {
         // 画面左下のワールド座標をビューポートから取得
-        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+        Vector2 min = camera.ViewportToWorldPoint(new Vector2(0, 0));
 
         // 画面右上のワールド座標をビューポートから取得
-        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+        Vector2 max = camera.ViewportToWorldPoint(new Vector2(1, 1));
 
         position.x = Mathf.Clamp(position.x, min.x, max.x);
         position.y = Mathf.Clamp(position.y, min.y, max.y);
