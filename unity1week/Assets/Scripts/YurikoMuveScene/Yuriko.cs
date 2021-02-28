@@ -14,14 +14,28 @@ public class Yuriko : MonoBehaviour
     private int jumpPower;
 
     [SerializeField]
-    private Camera camera; // このカメラ移動制限
+    private Camera camera; // このカメラ内に移動制限
+    
+    [SerializeField]
+    private CollisionWithEnemy collisionWithEnemy;
 
-    public IntReactiveProperty score;
-    public IntReactiveProperty immunity; // 免疫力(体力)
+    private IntReactiveProperty score;
+    public IObservable<int> OnScoreChanged
+    {
+        get { return score; }
+    }
+
+    private IntReactiveProperty immunity; // 免疫力(体力)
+    public IObservable<int> OnImmunityChanged
+    {
+        get { return immunity; }
+    }
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
+
     private IDisposable moveDisposable;
+    private IDisposable collisionEnemyDisposable;
 
     private bool isJumping = false;
 
@@ -29,17 +43,33 @@ public class Yuriko : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        score = new IntReactiveProperty(0);
+        immunity = new IntReactiveProperty(0);
     }
 
     public void OnGameStart()
     {
         moveDisposable = this.UpdateAsObservable()
             .Subscribe(_ => Move());
+
+        collisionEnemyDisposable = collisionWithEnemy.OnCollision
+            .Subscribe(_ => OnCollisionEnemy());
+
+        // デバッグ用
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKey(KeyCode.S))
+            .Subscribe(_ => score.Value++);
     }
 
+    /// <summary>
+    /// ゲームオーバー時の処理
+    /// </summary>
     void OnGameOver()
     {
+        // 移動と敵との接触時の購読を解除する
         moveDisposable.Dispose();
+        collisionEnemyDisposable.Dispose();
     }
 
     private void Move()
@@ -88,6 +118,11 @@ public class Yuriko : MonoBehaviour
         position.y = Mathf.Clamp(position.y, min.y, max.y);
 
         return position;
+    }
+
+    private void OnCollisionEnemy()
+    {
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
