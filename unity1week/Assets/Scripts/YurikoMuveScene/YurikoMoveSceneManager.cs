@@ -10,7 +10,7 @@ public class YurikoMoveSceneManager : MonoBehaviour
     private Yuriko yuriko;
 
     [SerializeField]
-    private YurikoMuveSceneView yurikoMuveSceneView;
+    private YurikoMoveSceneView yurikoMoveSceneView;
 
     void Start()
     {
@@ -24,6 +24,6 @@ public class YurikoMoveSceneManager : MonoBehaviour
 
     private void OnScoreChanged(int score)
     {
-        yurikoMuveSceneView.OnScoreChanged(score);
+        yurikoMoveSceneView.OnScoreChanged(score);
     }
 }

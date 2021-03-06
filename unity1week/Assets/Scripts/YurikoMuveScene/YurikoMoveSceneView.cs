@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class YurikoMuveSceneView : MonoBehaviour
+public class YurikoMoveSceneView : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI scoreText;
